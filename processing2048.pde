@@ -150,11 +150,19 @@ void keyPressed() {
       break;
   }
   ArrayList<Point> emptyPoints = getEmptyPoints();
-  if(emptyPoints.size() == 0) {
-    isGameOver = true;
-  } else {
+  if(emptyPoints.size() != 0) {
     Point point = emptyPoints.get((int) random(emptyPoints.size()));
     board[point.x][point.y] = 2;
+  }
+  if(emptyPoints.size() <= 1) {
+    isGameOver = true;
+    for(int x = 0; (x < BOARD_SIZE - 1) && isGameOver; x++) {
+      for(int y = 0; (y < BOARD_SIZE - 1) && isGameOver; y++) {
+        if(board[x][y] == board[x + 1][y] || board[x][y] == board[x][y + 1]) {
+          isGameOver  =false;
+        }
+      }
+    }
   }
 }
 
