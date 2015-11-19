@@ -107,6 +107,19 @@ private void drawGameOver() {
 
 /**
   Processing特有のメソッド
+  マウスを押した時に呼ばれる
+*/
+void mousePressed() {
+  if(isGameOver) {
+    // リトライボタンを押したかどうかをチェックする
+    if(mouseX >= 25 && mouseX <= width - 25 && mouseY >= height / 2 + 50 && mouseY <=  height / 2 + 100) {
+      initGame();
+    }
+  }
+}
+
+/**
+  Processing特有のメソッド
   キーボードを押した時に呼ばれる
 */
 void keyPressed() {
@@ -135,6 +148,13 @@ void keyPressed() {
       // Retry
       initGame();
       break;
+  }
+  ArrayList<Point> emptyPoints = getEmptyPoints();
+  if(emptyPoints.size() == 0) {
+    isGameOver = true;
+  } else {
+    Point point = emptyPoints.get((int) random(emptyPoints.size()));
+    board[point.x][point.y] = 2;
   }
 }
 
@@ -177,16 +197,6 @@ private void pressedLeft() {
         // この場所からブロックが消えたので、lastIndexの次の場所を入れる
         lastIndex = lastIndex + 1;
       }
-    }
-  }
-  // 新たにブロックを追加できる場所を探す
-  for(int y = 0; y < BOARD_SIZE; y++) {
-    if(board[BOARD_SIZE - 1][y] == 0) {
-       board[BOARD_SIZE - 1][y] = 2;
-       break;
-    } else if(y == 3) {
-      // 置く場所なかった場合ゲームオーバー
-      isGameOver = true;
     }
   }
 }
@@ -232,16 +242,6 @@ private void pressedRight() {
       }
     }
   }
-  // 新たにブロックを追加できる場所を探す
-  for(int y = 0; y < BOARD_SIZE; y++) {
-    if(board[0][y] == 0) {
-       board[0][y] = 2;
-       break;
-    } else if(y == 3) {
-      // 置く場所なかった場合ゲームオーバー
-      isGameOver = true;
-    }
-  }
 }
 
 private void pressedTop() {
@@ -283,16 +283,6 @@ private void pressedTop() {
         // この場所からブロックが消えたので、lastIndexの次の場所を入れる
         lastIndex = lastIndex + 1;
       }
-    }
-  }
-  // 新たにブロックを追加できる場所を探す
-  for(int x = 0; x < BOARD_SIZE; x++) {
-    if(board[x][BOARD_SIZE - 1] == 0) {
-       board[x][BOARD_SIZE - 1] = 2;
-       break;
-    } else if(x == 3) {
-      // 置く場所なかった場合ゲームオーバー
-      isGameOver = true;
     }
   }
 }
@@ -338,23 +328,16 @@ private void pressedBottom() {
       }
     }
   }
-  // 新たにブロックを追加できる場所を探す
-  for(int x = 0; x < BOARD_SIZE; x++) {
-    if(board[x][0] == 0) {
-       board[x][0] = 2;
-       break;
-    } else if(x == 3) {
-      // 置く場所なかった場合ゲームオーバー
-      isGameOver = true;
-    }
-  }
 }
 
-void mousePressed() {
-  if(isGameOver) {
-    // リトライボタンを押したかどうかをチェックする
-    if(mouseX >= 25 && mouseX <= width - 25 && mouseY >= height / 2 + 50 && mouseY <=  height / 2 + 100) {
-      initGame();
+private ArrayList<Point> getEmptyPoints() {
+  ArrayList<Point> emptyPoints = new ArrayList<Point>();
+  for(int x = 0; x < BOARD_SIZE; x++) {
+    for(int y = 0; y < BOARD_SIZE; y++) {
+      if(board[x][y] == 0) {
+        emptyPoints.add(new Point(x, y));
+      }
     }
   }
+  return emptyPoints;
 }
