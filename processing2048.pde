@@ -2,7 +2,6 @@
 static final int BOARD_SIZE = 4;
 static final int BOARD_PADDING_LEFT = 25;
 static final int BOARD_PADDING_TOP = 200;
-static final int BOARD_PADDING_RIGHT = 25;
 // BLOCK
 static final int BLOCK_SIZE = 50;
 static final int BLOCK_RADIUS = 8;
@@ -12,6 +11,7 @@ static final int DIVIDER_SIZE = 10;
 // Score
 static final int SCORE_WIDTH = 150;
 static final int SCORE_HEIGHT = 75;
+static final int SCORE_PADDING_RIGHT = 25;
 
 int[][] board;
 int score = 0;
@@ -41,6 +41,8 @@ void setup() {
 void draw() {
   // 背景の描画
   background(250, 247, 237);
+  // タイトルの表示
+  drawTitle();
   // スコアの表示
   drawScore();
   // ボードの背景を書く
@@ -49,14 +51,20 @@ void draw() {
   drawBlocks();
 }
 
+private void drawTitle() {
+  textSize(35);
+  fill(#645b52);
+  text("2048", BOARD_PADDING_LEFT, 78);
+}
+
 private void drawScore() {
   fill(#ad9d8e);
-  rect(width - (SCORE_WIDTH + BOARD_PADDING_RIGHT), 25, SCORE_WIDTH, SCORE_HEIGHT, BLOCK_RADIUS);
+  rect(width - (SCORE_WIDTH + SCORE_PADDING_RIGHT), 25, SCORE_WIDTH, SCORE_HEIGHT, BLOCK_RADIUS);
   fill(255);
   textSize(20);
-  text("SCORE", width - (SCORE_WIDTH / 2 + BOARD_PADDING_RIGHT)  - (textWidth("SCORE") / 2), 50);
+  text("SCORE", width - (SCORE_WIDTH / 2 + SCORE_PADDING_RIGHT)  - (textWidth("SCORE") / 2), 50);
   textSize(25);
-  text(score, width - (SCORE_WIDTH / 2 + BOARD_PADDING_RIGHT)  - (textWidth(String.valueOf(score)) / 2), SCORE_HEIGHT + 12);
+  text(score, width - (SCORE_WIDTH / 2 + SCORE_PADDING_RIGHT)  - (textWidth(String.valueOf(score)) / 2), SCORE_HEIGHT + 12);
 }
 
 private void drawBoard() {
@@ -172,6 +180,7 @@ private void pressedLeft() {
       if(board[x][y] > 0) {
         // 同じ数字があったので、数字を消す
         if(lastIndex != -1 && board[lastIndex][y] == board[x][y]) {
+          score += board[lastIndex][y]; 
           board[lastIndex][y] = board[lastIndex][y] * 2;
           board[x][y] = 0;
           // この数字はもう評価しないので、初期化する
@@ -224,6 +233,7 @@ private void pressedRight() {
       if(board[x][y] > 0) {
         // 同じ数字があったので、数字を消す
         if(lastIndex != -1 && board[lastIndex][y] == board[x][y]) {
+          score += board[lastIndex][y];
           board[lastIndex][y] = board[lastIndex][y] * 2;
           board[x][y] = 0;
           // この数字はもう評価しないので、初期化する
@@ -276,6 +286,7 @@ private void pressedTop() {
       if(board[x][y] > 0) {
         // 同じ数字があったので、数字を消す
         if(lastIndex != -1 && board[x][lastIndex] == board[x][y]) {
+          score += board[x][lastIndex];
           board[x][lastIndex] = board[x][lastIndex] * 2;
           board[x][y] = 0;
           // この数字はもう評価しないので、初期化する
@@ -328,6 +339,7 @@ private void pressedBottom() {
       if(board[x][y] > 0) {
         // 同じ数字があったので、数字を消す
         if(lastIndex != -1 && board[x][lastIndex] == board[x][y]) {
+          score += board[x][lastIndex];
           board[x][lastIndex] = board[x][lastIndex] * 2;
           board[x][y] = 0;
           // この数字はもう評価しないので、初期化する
