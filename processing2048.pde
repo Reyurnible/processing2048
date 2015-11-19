@@ -49,6 +49,11 @@ void draw() {
   drawBoard();
   // ブロックを書く
   drawBlocks();
+  // ゲームオーバーの表示をする
+  if(isGameOver) {
+    drawGameOver();
+  }
+  drawGameOver();
 }
 
 private void drawTitle() {
@@ -139,6 +144,21 @@ private void setBlockColor(int number) {
       fill(#2e2c26);
       break;
   }
+}
+
+private void drawGameOver() {
+  // 白いカラーフィルターをかける
+  fill(#eaded1, 90);
+  rect(0, 0, width, height);
+  // GAMEOVERの表示
+  fill(#645b52);
+  textSize(50);
+  text("GAME OVER", width / 2 - textWidth("GAME OVER") / 2, height / 2 - 25);
+  // リトライボタンの表示
+  rect(25, height / 2 + 50, width - 50, 50, BLOCK_RADIUS);
+  fill(255);
+  textSize(30);
+  text("RETRY", width / 2 - textWidth("RETRY") / 2, height / 2 + 75 + 10);
 }
 
 /**
