@@ -58,7 +58,7 @@ private void drawBlock(int number, int x, int y) {
       fill(255);
     }
     textSize(BLOCK_TEXT_SIZE);
-    text(board[x][y], leftX + BLOCK_TEXT_SIZE / 2, topY + BLOCK_SIZE - BLOCK_TEXT_SIZE / 2);
+    text(board[x][y], (leftX + BLOCK_SIZE / 2) - (textWidth(String.valueOf(number)) / 2), (topY + BLOCK_SIZE / 2) + (BLOCK_TEXT_SIZE / 2));
   } else {
     fill(#c2b4a4);
     rect(leftX, topY, BLOCK_SIZE, BLOCK_SIZE, BLOCK_RADIUS);
@@ -104,9 +104,7 @@ private void setBlockColor(int number) {
       fill(#2e2c26);
       break;
   }
-
 }
-
 
 /**
   Processing特有のメソッド
@@ -161,20 +159,19 @@ private void pressedLeft() {
     // 今度は数字がなかった最後の場所を記録しておく
     lastIndex = -1;
     for(int x = 0; x < BOARD_SIZE; x++) {
-      // もし隣の数字と一緒だったら
-      if(board[x][y] == 0) {
+      if(lastIndex == -1) {
         // 数字がなかった場所として記録する
-        lastIndex = x;
-      } else {
-        // 開いてる場所が見つかっている時に処理をする
-        if(lastIndex != -1) {
-          // 数字があったので、数を左に動かすようにする
-          board[lastIndex][y] = board[x][y];
-          // 動かしたので空にする
-          board[x][y] = 0;
-          // この場所からブロックが消えたので、lastIndexに現在地を入れる
-          lastIndex = x;
-        }
+        if(board[x][y] == 0) lastIndex = x;  
+        continue;
+      }
+      // 開いてる場所が見つかっている時に処理をする
+      if(board[x][y] > 0) {
+        // 数字があったので、数を左に動かすようにする
+        board[lastIndex][y] = board[x][y];
+        // 動かしたので空にする
+        board[x][y] = 0;
+        // この場所からブロックが消えたので、lastIndexの次の場所を入れる
+        lastIndex = lastIndex + 1;
       }
     }
   }
@@ -214,20 +211,19 @@ private void pressedRight() {
     // 今度は数字がなかった最後の場所を記録しておく
     lastIndex = -1;
     for(int x = BOARD_SIZE - 1; x >= 0; x--) {
-      // もし隣の数字と一緒だったら
-      if(board[x][y] == 0) {
+      if(lastIndex == -1) {
         // 数字がなかった場所として記録する
-        lastIndex = x;
-      } else {
-        // 開いてる場所が見つかっている時に処理をする
-        if(lastIndex != -1) {
-          // 数字があったので、数を左に動かすようにする
-          board[lastIndex][y] = board[x][y];
-          // 動かしたので空にする
-          board[x][y] = 0;
-          // この場所からブロックが消えたので、lastIndexに現在地を入れる
-          lastIndex = x;
-        }
+        if(board[x][y] == 0) lastIndex = x;  
+        continue;
+      }
+      // 開いてる場所が見つかっている時に処理をする
+      if(board[x][y] > 0) {
+        // 数字があったので、数を左に動かすようにする
+        board[lastIndex][y] = board[x][y];
+        // 動かしたので空にする
+        board[x][y] = 0;
+        // この場所からブロックが消えたので、lastIndexの次の場所を入れる
+        lastIndex = lastIndex - 1;
       }
     }
   }
@@ -267,20 +263,19 @@ private void pressedTop() {
     // 今度は数字がなかった最後の場所を記録しておく
     lastIndex = -1;
     for(int y = 0; y < BOARD_SIZE; y++) {
-      // もし隣の数字と一緒だったら
-      if(board[x][y] == 0) {
+      if(lastIndex == -1) {
         // 数字がなかった場所として記録する
-        lastIndex = y;
-      } else {
-        // 開いてる場所が見つかっている時に処理をする
-        if(lastIndex != -1) {
-          // 数字があったので、数を左に動かすようにする
-          board[x][lastIndex] = board[x][y];
-          // 動かしたので空にする
-          board[x][y] = 0;
-          // この場所からブロックが消えたので、lastIndexに現在地を入れる
-          lastIndex = y;
-        }
+        if(board[x][y] == 0) lastIndex = y;  
+        continue;
+      }
+      // 開いてる場所が見つかっている時に処理をする
+      if(board[x][y] > 0) {
+        // 数字があったので、数を左に動かすようにする
+        board[x][lastIndex] = board[x][y];
+        // 動かしたので空にする
+        board[x][y] = 0;
+        // この場所からブロックが消えたので、lastIndexの次の場所を入れる
+        lastIndex = lastIndex + 1;
       }
     }
   }
@@ -320,20 +315,19 @@ private void pressedBottom() {
     // 今度は数字がなかった最後の場所を記録しておく
     lastIndex = -1;
     for(int y = BOARD_SIZE - 1; y >= 0 ; y--) {
-      // もし隣の数字と一緒だったら
-      if(board[x][y] == 0) {
+      if(lastIndex == -1) {
         // 数字がなかった場所として記録する
-        lastIndex = y;
-      } else {
-        // 開いてる場所が見つかっている時に処理をする
-        if(lastIndex != -1) {
-          // 数字があったので、数を左に動かすようにする
-          board[x][lastIndex] = board[x][y];
-          // 動かしたので空にする
-          board[x][y] = 0;
-          // この場所からブロックが消えたので、lastIndexに現在地を入れる
-          lastIndex = y;
-        }
+        if(board[x][y] == 0) lastIndex = y;  
+        continue;
+      }
+      // 開いてる場所が見つかっている時に処理をする
+      if(board[x][y] > 0) {
+        // 数字があったので、数を左に動かすようにする
+        board[x][lastIndex] = board[x][y];
+        // 動かしたので空にする
+        board[x][y] = 0;
+        // この場所からブロックが消えたので、lastIndexの次の場所を入れる
+        lastIndex = lastIndex - 1;
       }
     }
   }
