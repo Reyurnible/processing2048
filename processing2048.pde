@@ -36,19 +36,67 @@ void draw() {
   background(250, 247, 237);
   for(int x = 0; x < BOARD_SIZE; x++) {
     for(int y = 0; y < BOARD_SIZE; y++) {
+      final int leftX = x * BLOCK_SIZE + (x + 1) * DIVIDER_SIZE;
+      final int topY = y * BLOCK_SIZE + (y + 1) * DIVIDER_SIZE;
+      fill(#c2b4a4);
+      rect(leftX, topY, BLOCK_SIZE, BLOCK_SIZE, BLOCK_RADIUS);
       // 数字がある場合に数字のブロックを描画する
       if(board[x][y] > 0) {
-        final int leftX = x * BLOCK_SIZE + (x + 1) * DIVIDER_SIZE;
-        final int topY = y * BLOCK_SIZE + (y + 1) * DIVIDER_SIZE;
-        fill(255, 255 - (255 * board[x][y] / 2048), 0);
+        setBlockColor(board[x][y]);
         rect(leftX, topY, BLOCK_SIZE, BLOCK_SIZE, BLOCK_RADIUS);
         fill(0);
         textSize(BLOCK_TEXT_SIZE);
         text(board[x][y], leftX + BLOCK_TEXT_SIZE / 2, topY + BLOCK_SIZE - BLOCK_TEXT_SIZE / 2);
+      } else {
+        
+        
       }
     }
   }
 }
+
+private void setBlockColor(int number) {
+  switch(number) {
+    case 2:
+      fill(#eaded1);
+      break;
+    case 4:
+      fill(#e9dabb);
+      break;
+    case 8:
+      fill(#efa261);
+      break;
+    case 16:
+      fill(#f3814c);
+      break;
+    case 32:
+      fill(#f46549);
+      break;
+    case 64:
+      fill(#f44526);
+      break;
+    case 128:
+      fill(#e9c858);
+      break;
+    case 256:
+      fill(#e9c447);
+      break;
+    case 512:
+      fill(#dfb30c);
+      break;
+    case 1024:
+      fill(#dbae00);
+      break;
+    case 2048:
+      fill(#a86d9c);
+      break;
+    default:
+      fill(#2e2c26);
+      break;
+  }
+
+}
+
 
 /**
   Processing特有のメソッド
