@@ -2,15 +2,19 @@
 static final int BOARD_SIZE = 4;
 static final int BOARD_PADDING_LEFT = 25;
 static final int BOARD_PADDING_TOP = 200;
-
+static final int BOARD_PADDING_RIGHT = 25;
 // BLOCK
 static final int BLOCK_SIZE = 50;
 static final int BLOCK_RADIUS = 8;
 static final int BLOCK_TEXT_SIZE = 20;
 // ブロック間の線の太さ
 static final int DIVIDER_SIZE = 10;
+// Score
+static final int SCORE_WIDTH = 150;
+static final int SCORE_HEIGHT = 75;
 
 int[][] board;
+int score = 0;
 boolean isGameOver;
 
 /** 
@@ -37,10 +41,22 @@ void setup() {
 void draw() {
   // 背景の描画
   background(250, 247, 237);
+  // スコアの表示
+  drawScore();
   // ボードの背景を書く
   drawBoard();
   // ブロックを書く
   drawBlocks();
+}
+
+private void drawScore() {
+  fill(#ad9d8e);
+  rect(width - (SCORE_WIDTH + BOARD_PADDING_RIGHT), 25, SCORE_WIDTH, SCORE_HEIGHT, BLOCK_RADIUS);
+  fill(255);
+  textSize(20);
+  text("SCORE", width - (SCORE_WIDTH / 2 + BOARD_PADDING_RIGHT)  - (textWidth("SCORE") / 2), 50);
+  textSize(25);
+  text(score, width - (SCORE_WIDTH / 2 + BOARD_PADDING_RIGHT)  - (textWidth(String.valueOf(score)) / 2), SCORE_HEIGHT + 12);
 }
 
 private void drawBoard() {
