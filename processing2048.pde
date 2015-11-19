@@ -1,9 +1,12 @@
 // 定数の定義をしている部分で、ここの値はプログラム実行中に実態に変更されないことを表しています。
 static final int BOARD_SIZE = 4;
+static final int BOARD_PADDING_LEFT = 25;
+static final int BOARD_PADDING_TOP = 200;
+
 // BLOCK
 static final int BLOCK_SIZE = 50;
 static final int BLOCK_RADIUS = 8;
-static final int BLOCK_TEXT_SIZE = 15;
+static final int BLOCK_TEXT_SIZE = 20;
 // ブロック間の線の太さ
 static final int DIVIDER_SIZE = 10;
 
@@ -19,8 +22,7 @@ void setup() {
   board = new int[BOARD_SIZE][BOARD_SIZE];
   isGameOver = false;
   // 起動時の画面サイズを設定します
-  //final int boardSize = BLOCK_SIZE * BOARD_SIZE + (BOARD_SIZE + 1) * DIVIDER_SIZE; 
-  size(250, 250);
+  size(300, 500);
   noStroke();
   // RGBの色を使用するという指定
   colorMode(RGB,256);
@@ -33,8 +35,17 @@ void setup() {
   プログラムを描画する1フレームごとに毎回呼ばれる
  */
 void draw() {
+  // 背景の描画
   background(250, 247, 237);
+  // ボードの背景を書く
+  drawBoard();
+  // ブロックを書く
   drawBlocks();
+}
+
+private void drawBoard() {
+  fill(#ad9d8e);
+  rect(BOARD_PADDING_LEFT, BOARD_PADDING_TOP, BOARD_SIZE * BLOCK_SIZE + (BOARD_SIZE + 1) * DIVIDER_SIZE, BOARD_SIZE * BLOCK_SIZE + (BOARD_SIZE + 1) * DIVIDER_SIZE, BLOCK_RADIUS);
 }
 
 private void drawBlocks() {
@@ -46,8 +57,8 @@ private void drawBlocks() {
 }
 
 private void drawBlock(int number, int x, int y) {
-  final int leftX = x * BLOCK_SIZE + (x + 1) * DIVIDER_SIZE;
-  final int topY = y * BLOCK_SIZE + (y + 1) * DIVIDER_SIZE;
+  final int leftX = x * BLOCK_SIZE + (x + 1) * DIVIDER_SIZE + BOARD_PADDING_LEFT;
+  final int topY = y * BLOCK_SIZE + (y + 1) * DIVIDER_SIZE + BOARD_PADDING_TOP;
   // 数字がある場合に数字のブロックを描画する
   if(number > 0) {
     setBlockColor(number);
