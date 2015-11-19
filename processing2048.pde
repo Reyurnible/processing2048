@@ -34,24 +34,34 @@ void setup() {
  */
 void draw() {
   background(250, 247, 237);
+  drawBlocks();
+}
+
+private void drawBlocks() {
   for(int x = 0; x < BOARD_SIZE; x++) {
     for(int y = 0; y < BOARD_SIZE; y++) {
-      final int leftX = x * BLOCK_SIZE + (x + 1) * DIVIDER_SIZE;
-      final int topY = y * BLOCK_SIZE + (y + 1) * DIVIDER_SIZE;
-      fill(#c2b4a4);
-      rect(leftX, topY, BLOCK_SIZE, BLOCK_SIZE, BLOCK_RADIUS);
-      // 数字がある場合に数字のブロックを描画する
-      if(board[x][y] > 0) {
-        setBlockColor(board[x][y]);
-        rect(leftX, topY, BLOCK_SIZE, BLOCK_SIZE, BLOCK_RADIUS);
-        fill(0);
-        textSize(BLOCK_TEXT_SIZE);
-        text(board[x][y], leftX + BLOCK_TEXT_SIZE / 2, topY + BLOCK_SIZE - BLOCK_TEXT_SIZE / 2);
-      } else {
-        
-        
-      }
+      drawBlock(board[x][y], x, y);
     }
+  }
+}
+
+private void drawBlock(int number, int x, int y) {
+  final int leftX = x * BLOCK_SIZE + (x + 1) * DIVIDER_SIZE;
+  final int topY = y * BLOCK_SIZE + (y + 1) * DIVIDER_SIZE;
+  // 数字がある場合に数字のブロックを描画する
+  if(number > 0) {
+    setBlockColor(number);
+    rect(leftX, topY, BLOCK_SIZE, BLOCK_SIZE, BLOCK_RADIUS);
+    if(number < 8) {
+      fill(24);
+    } else {
+      fill(255);
+    }
+    textSize(BLOCK_TEXT_SIZE);
+    text(board[x][y], leftX + BLOCK_TEXT_SIZE / 2, topY + BLOCK_SIZE - BLOCK_TEXT_SIZE / 2);
+  } else {
+    fill(#c2b4a4);
+    rect(leftX, topY, BLOCK_SIZE, BLOCK_SIZE, BLOCK_RADIUS);
   }
 }
 
