@@ -2,19 +2,18 @@
 static final int BOARD_SIZE = 4;
 static final int BOARD_PADDING_LEFT = 25;
 static final int BOARD_PADDING_TOP = 200;
-// BLOCK
-static final int BLOCK_SIZE = 50;
-static final int BLOCK_RADIUS = 8;
-static final int BLOCK_TEXT_SIZE = 20;
 // ブロック間の線の太さ
+static final int BLOCK_SIZE = 50;
 static final int DIVIDER_SIZE = 10;
 // Score
 static final int SCORE_WIDTH = 150;
 static final int SCORE_HEIGHT = 75;
 static final int SCORE_PADDING_RIGHT = 25;
+// Shape
+static final int RADIUS = 8;
 
 int[][] board;
-int score = 0;
+int score;
 boolean isGameOver;
 
 /** 
@@ -23,8 +22,7 @@ boolean isGameOver;
  */
 void setup() {
   // 使う変数を初期化します
-  board = new int[BOARD_SIZE][BOARD_SIZE];
-  isGameOver = false;
+  initGame();
   // 起動時の画面サイズを設定します
   size(300, 500);
   noStroke();
@@ -32,6 +30,12 @@ void setup() {
   colorMode(RGB,256);
   // 背景色
   background(250, 247, 237);
+}
+
+private void initGame() {
+  board = new int[BOARD_SIZE][BOARD_SIZE];
+  score = 0;
+  isGameOver = false;
 }
 
 /**
@@ -53,7 +57,6 @@ void draw() {
   if(isGameOver) {
     drawGameOver();
   }
-  drawGameOver();
 }
 
 private void drawTitle() {
@@ -64,7 +67,7 @@ private void drawTitle() {
 
 private void drawScore() {
   fill(#ad9d8e);
-  rect(width - (SCORE_WIDTH + SCORE_PADDING_RIGHT), 25, SCORE_WIDTH, SCORE_HEIGHT, BLOCK_RADIUS);
+  rect(width - (SCORE_WIDTH + SCORE_PADDING_RIGHT), 25, SCORE_WIDTH, SCORE_HEIGHT, RADIUS);
   fill(255);
   textSize(20);
   text("SCORE", width - (SCORE_WIDTH / 2 + SCORE_PADDING_RIGHT)  - (textWidth("SCORE") / 2), 50);
@@ -74,75 +77,16 @@ private void drawScore() {
 
 private void drawBoard() {
   fill(#ad9d8e);
-  rect(BOARD_PADDING_LEFT, BOARD_PADDING_TOP, BOARD_SIZE * BLOCK_SIZE + (BOARD_SIZE + 1) * DIVIDER_SIZE, BOARD_SIZE * BLOCK_SIZE + (BOARD_SIZE + 1) * DIVIDER_SIZE, BLOCK_RADIUS);
+  rect(BOARD_PADDING_LEFT, BOARD_PADDING_TOP, BOARD_SIZE * BLOCK_SIZE + (BOARD_SIZE + 1) * DIVIDER_SIZE, BOARD_SIZE * BLOCK_SIZE + (BOARD_SIZE + 1) * DIVIDER_SIZE, RADIUS);
 }
 
 private void drawBlocks() {
   for(int x = 0; x < BOARD_SIZE; x++) {
     for(int y = 0; y < BOARD_SIZE; y++) {
-      drawBlock(board[x][y], x, y);
+      final int leftX = x * BLOCK_SIZE + (x + 1) * DIVIDER_SIZE + BOARD_PADDING_LEFT;
+      final int topY = y * BLOCK_SIZE + (y + 1) * DIVIDER_SIZE + BOARD_PADDING_TOP;
+      new Block(board[x][y], BLOCK_SIZE).draw(leftX, topY);
     }
-  }
-}
-
-private void drawBlock(int number, int x, int y) {
-  final int leftX = x * BLOCK_SIZE + (x + 1) * DIVIDER_SIZE + BOARD_PADDING_LEFT;
-  final int topY = y * BLOCK_SIZE + (y + 1) * DIVIDER_SIZE + BOARD_PADDING_TOP;
-  // 数字がある場合に数字のブロックを描画する
-  if(number > 0) {
-    setBlockColor(number);
-    rect(leftX, topY, BLOCK_SIZE, BLOCK_SIZE, BLOCK_RADIUS);
-    if(number < 8) {
-      fill(24);
-    } else {
-      fill(255);
-    }
-    textSize(BLOCK_TEXT_SIZE);
-    text(board[x][y], (leftX + BLOCK_SIZE / 2) - (textWidth(String.valueOf(number)) / 2), (topY + BLOCK_SIZE / 2) + (BLOCK_TEXT_SIZE / 2));
-  } else {
-    fill(#c2b4a4);
-    rect(leftX, topY, BLOCK_SIZE, BLOCK_SIZE, BLOCK_RADIUS);
-  }
-}
-
-private void setBlockColor(int number) {
-  switch(number) {
-    case 2:
-      fill(#eaded1);
-      break;
-    case 4:
-      fill(#e9dabb);
-      break;
-    case 8:
-      fill(#efa261);
-      break;
-    case 16:
-      fill(#f3814c);
-      break;
-    case 32:
-      fill(#f46549);
-      break;
-    case 64:
-      fill(#f44526);
-      break;
-    case 128:
-      fill(#e9c858);
-      break;
-    case 256:
-      fill(#e9c447);
-      break;
-    case 512:
-      fill(#dfb30c);
-      break;
-    case 1024:
-      fill(#dbae00);
-      break;
-    case 2048:
-      fill(#a86d9c);
-      break;
-    default:
-      fill(#2e2c26);
-      break;
   }
 }
 
@@ -155,7 +99,7 @@ private void drawGameOver() {
   textSize(50);
   text("GAME OVER", width / 2 - textWidth("GAME OVER") / 2, height / 2 - 25);
   // リトライボタンの表示
-  rect(25, height / 2 + 50, width - 50, 50, BLOCK_RADIUS);
+  rect(25, height / 2 + 50, width - 50, 50, RADIUS);
   fill(255);
   textSize(30);
   text("RETRY", width / 2 - textWidth("RETRY") / 2, height / 2 + 75 + 10);
@@ -168,24 +112,28 @@ private void drawGameOver() {
 void keyPressed() {
   switch(keyCode) {
     // Left Key
-    case 37:
+    case LEFT:
       println("LEFT KEY PRESSED");
       pressedLeft();
       break;
     // Right Key
-    case 39:
+    case RIGHT:
       println("RIGHT KEY PRESSED");
       pressedRight();
       break;
     // Top Key
-    case 38:
+    case UP:
       println("TOP KEY PRESSED");
       pressedTop();
       break;
     // Bottom Key
-    case 40:
+    case DOWN:
       println("BOTTOM KEY PRESSED");
       pressedBottom();
+      break;
+    case 'R':
+      // Retry
+      initGame();
       break;
   }
 }
@@ -398,6 +346,15 @@ private void pressedBottom() {
     } else if(x == 3) {
       // 置く場所なかった場合ゲームオーバー
       isGameOver = true;
+    }
+  }
+}
+
+void mousePressed() {
+  if(isGameOver) {
+    // リトライボタンを押したかどうかをチェックする
+    if(mouseX >= 25 && mouseX <= width - 25 && mouseY >= height / 2 + 50 && mouseY <=  height / 2 + 100) {
+      initGame();
     }
   }
 }
