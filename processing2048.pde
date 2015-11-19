@@ -1,7 +1,7 @@
 // 定数の定義をしている部分で、ここの値はプログラム実行中に実態に変更されないことを表しています。
 static final int BOARD_SIZE = 4;
 static final int BOARD_PADDING_LEFT = 25;
-static final int BOARD_PADDING_TOP = 200;
+static final int BOARD_PADDING_TOP = 125;
 // ブロック間の線の太さ
 static final int BLOCK_SIZE = 50;
 static final int DIVIDER_SIZE = 10;
@@ -24,7 +24,7 @@ void setup() {
   // 使う変数を初期化します
   initGame();
   // 起動時の画面サイズを設定します
-  size(300, 500);
+  size(300, 400);
   noStroke();
   // RGBの色を使用するという指定
   colorMode(RGB,256);
