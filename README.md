@@ -6,10 +6,6 @@ Processingで作られたゲーム:2048のサンプルです。
 
 ## Files
 
-- Main.pde
-- Block.pde
-- Point.ped
-
-Main.pdeは、ゲームの根幹になっており、ロジック等すべて入っています。
-Block.pedは、ブロックの描画に関する部分を情報として管理しています。
-Point.pdeは、座標を管理するために作成したクラスです。
+- Main.pde : ゲームのロジック等部分です
+- Block.pde : ブロックの情報と、描画処理を持ったクラスです
+- Point.ped : XYで座標を管理するためのクラスです
