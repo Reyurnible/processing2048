@@ -36,6 +36,7 @@ private void initGame() {
   board = new int[BOARD_SIZE][BOARD_SIZE];
   score = 0;
   isGameOver = false;
+  board[(int) random(4)][(int) random(4)] = 2;
 }
 
 /**
@@ -147,7 +148,7 @@ void keyPressed() {
     case 'R':
       // Retry
       initGame();
-      break;
+      return;
   }
   ArrayList<Point> emptyPoints = getEmptyPoints();
   if(emptyPoints.size() != 0) {
