@@ -29,45 +29,44 @@ public class Block {
   }
   
   private void setBlockColor(int number) {
-  switch(number) {
-    case 2:
-      fill(#eaded1);
-      break;
-    case 4:
-      fill(#e9dabb);
-      break;
-    case 8:
-      fill(#efa261);
-      break;
-    case 16:
-      fill(#f3814c);
-      break;
-    case 32:
-      fill(#f46549);
-      break;
-    case 64:
-      fill(#f44526);
-      break;
-    case 128:
-      fill(#e9c858);
-      break;
-    case 256:
-      fill(#e9c447);
-      break;
-    case 512:
-      fill(#dfb30c);
-      break;
-    case 1024:
-      fill(#dbae00);
-      break;
-    case 2048:
-      fill(#a86d9c);
-      break;
-    default:
-      fill(#2e2c26);
-      break;
+    switch(number) {
+      case 2:
+        fill(#eaded1);
+        break;
+      case 4:
+        fill(#e9dabb);
+        break;
+      case 8:
+        fill(#efa261);
+        break;
+      case 16:
+        fill(#f3814c);
+        break;
+      case 32:
+        fill(#f46549);
+        break;
+      case 64:
+        fill(#f44526);
+        break;
+      case 128:
+        fill(#e9c858);
+        break;
+      case 256:
+        fill(#e9c447);
+        break;
+      case 512:
+        fill(#dfb30c);
+        break;
+      case 1024:
+        fill(#dbae00);
+        break;
+      case 2048:
+        fill(#a86d9c);
+        break;
+      default:
+        fill(#2e2c26);
+        break;
+    }
   }
-}
-
 
 }
